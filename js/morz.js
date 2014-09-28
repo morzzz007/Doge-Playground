@@ -45,11 +45,13 @@ function create() {
 	doge.animations.add('fly_up_left', [27], 15, true);
 	doge.animations.add('fly_down_left', [26], 15, true);
 
-	game.physics.startSystem(Phaser.Physics.ARCADE);
-	game.physics.arcade.enable([doge]);
-	game.physics.arcade.gravity.y = 500;
+	game.physics.startSystem(Phaser.Physics.P2JS);
+	game.physics.p2.enable([doge]);
+	game.physics.p2.gravity.y = 500;
 
-	doge.body.bounce.y = 0.15;
+	// doge.body.bounce.y = 0.15;
+	game.physics.p2.restitution = 0.2;
+	doge.body.fixedRotation = true;
 	doge.body.collideWorldBounds = true;
 
 	cursors = game.input.keyboard.createCursorKeys();
@@ -59,6 +61,8 @@ function create() {
 function update() {
 
     doge.body.velocity.x = 0;
+
+    var floorResult = checkIfCanJump();
 
    	if (cursors.left.isDown)
     {
@@ -79,7 +83,7 @@ function update() {
 
     if (doge_props.facing == 'left')
     {
-    	if (doge.body.onFloor()) {
+    	if (floorResult) {
     		if (doge_props.state == 'moving') {
     			doge.animations.play('left');
     		} else {
@@ -97,7 +101,7 @@ function update() {
 
     if (doge_props.facing == 'right')
     {
-    	if (doge.body.onFloor()) {
+    	if (floorResult) {
     		if (doge_props.state == 'moving') {
     			doge.animations.play('right');
     		} else {
@@ -113,9 +117,30 @@ function update() {
    	}
 
 
-    if ( (cursors.up.isDown || jumpButton.isDown) && doge.body.onFloor())
+    if ( (cursors.up.isDown || jumpButton.isDown) && floorResult)
     {
         doge.body.velocity.y = -400;
     }
+
+}
+
+function checkIfCanJump() {
+
+    var yAxis = p2.vec2.fromValues(0, 1);
+    var result = false;
+
+    for (var i = 0; i < game.physics.p2.world.narrowphase.contactEquations.length; i++)
+    {
+        var c = game.physics.p2.world.narrowphase.contactEquations[i];
+
+        if (c.bodyA === doge.body.data || c.bodyB === doge.body.data)
+        {
+            var d = p2.vec2.dot(c.normalA, yAxis); // Normal dot Y-axis
+            if (c.bodyA === doge.body.data) d *= -1;
+            if (d > 0.5) result = true;
+        }
+    }
+    
+    return result;
 
 }
