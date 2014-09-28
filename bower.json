@@ -1,0 +1,23 @@
+{
+  "name": "Morz.Hu Homepage",
+  "version": "0.0.0",
+  "keywords": [
+    "morz"
+  ],
+  "authors": [
+    "Marton Papp"
+  ],
+  "license": "MIT",
+  "homepage": "http://morz.hu",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.2.0",
+    "phaser": "~2.1.1"
+  }
+}

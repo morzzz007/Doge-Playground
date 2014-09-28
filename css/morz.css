@@ -1,0 +1,32 @@
+body, html {
+	background-color: #242525;
+	font-family: 'Roboto', sans-serif;
+}
+
+.my-logo {
+	font-size: 20px;
+	color: rgb(129, 129, 129);
+	text-transform: uppercase;
+	font-weight: 300;
+	margin-top: 10px;
+	margin-left: 10px;
+}
+
+.controls {
+	position: absolute;
+	width: 100%;
+	top: 7px;
+	text-align: center;
+}
+
+.controls .control-text {
+	color: white;
+	text-transform: uppercase;
+	font-weight: 300;
+	font-size: 12px;
+}
+
+#doge-playground {
+	position: absolute;
+	top: 50px;
+}
