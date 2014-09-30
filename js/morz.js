@@ -1,11 +1,22 @@
 var game = new Phaser.Game(window.innerWidth, 500, Phaser.AUTO, 'doge-playground',
-	{ preload: preload, create: create, update: update });
+	{ preload: preload, create: create, update: update, render: render });
 
 var doge;
-var marton;
-var martonSpring;
-var papp;
-var pappSpring;
+var logo;
+var skills;
+var skillsPoints = [
+	{x: 400, 				y: 100},
+	{x: 400 + 153 + 10, 	y: 100},
+	{x: 450, 				y: 160},
+	{x: 450, 				y: 210},
+	{x: 450, 				y: 255},
+	{x: 450 + 74 + 5, 		y: 255},
+	{x: 450, 				y: 298},
+	{x: 450 + 67 + 5, 		y: 298},
+	{x: 450 + 67 + 5 + 64 + 5, 	y: 298},
+	{x: 450, 				y: 340},
+	{x: 450 + 53 + 5, 		y: 340},
+];
 
 var wWidth = window.innerWidth;
 var wHeight = 500;
@@ -24,44 +35,58 @@ var jumpButton;
 function preload() {
 
     game.load.spritesheet('doge', 'assets/doge_run.png', 80, 76, 28);    
-    game.load.image('marton', 'assets/marton.png');
-    game.load.image('papp', 'assets/papp.png');
-    game.load.image('invisible', 'assets/invisible.png');
+    game.load.image('logo', 'assets/logo.png');
+
+    game.load.image('sk_1', 'assets/skills/1.png');
+    game.load.image('sk_2', 'assets/skills/2.png');
+    game.load.image('sk_3', 'assets/skills/3.png');
+    game.load.image('sk_4', 'assets/skills/4.png');
+    game.load.image('sk_5', 'assets/skills/5.png');
+    game.load.image('sk_6', 'assets/skills/6.png');
+    game.load.image('sk_7', 'assets/skills/7.png');
+    game.load.image('sk_8', 'assets/skills/8.png');
+    game.load.image('sk_9', 'assets/skills/9.png');
+    game.load.image('sk_10', 'assets/skills/10.png');
+    game.load.image('sk_11', 'assets/skills/11.png');
 
     game.load.physics('physicsData', 'assets/marton.json')
 
 }
 
 function create() {
-
-	createSky();
-	createDoge();
-	createName();
-
 	game.world.setBounds(0, 0, 3500, wHeight);
-
 	game.physics.startSystem(Phaser.Physics.P2JS);
-	game.physics.p2.enable([doge, marton, martonSpring, papp, pappSpring]);
 	game.physics.p2.gravity.y = 500;
 	game.physics.p2.restitution = 0.2;
+	
 
-	var spring = game.physics.p2.createSpring(marton, martonSpring, 10, 10, 1);
-	var spring2 = game.physics.p2.createSpring(papp, pappSpring, 10, 10, 1);
+	createSky();
+	createLogo();
+	createDoge();
+	createSkills();
+
+	game.physics.p2.enable([doge]);
 
 	doge.body.fixedRotation = true;
 	doge.body.collideWorldBounds = true;
-
-	marton.body.fixedRotation = true;
-	marton.body.clearShapes();
-	marton.body.loadPolygon('physicsData', 'marton');
-	martonSpring.body.static = true;
-	papp.body.fixedRotation = true;
-	pappSpring.body.static = true;
-
+	doge.body.onBeginContact.add(blockHit, this);
 	cursors = game.input.keyboard.createCursorKeys();
     jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
     game.camera.follow(doge);
+
+}
+
+function blockHit (body, shapeA, shapeB, equation) {
+	console.log(shapeA);
+	if (body != null) {
+		console.log(body)
+		body.motionState = Phaser.Physics.P2.Body.DYNAMIC;
+	};
+}
+
+function render () {
+	game.debug.inputInfo(32, 32);
 }
 
 function update() {
@@ -176,15 +201,24 @@ function createDoge () {
 	doge.animations.add('fly_down_left', [26], 15, true);
 }
 
-function createName () {
+function createSkills () {
+	skills = game.add.group();
 
-	var fixedTop = 230;
-	var fixedTopSpring = fixedTop - 30;
+	var left_offset = 190;
 
-	marton = game.add.sprite(300, fixedTop - 10, 'marton');
-	martonSpring = game.add.sprite(300, fixedTopSpring - 10, 'invisible');
+	for (var i = 1; i < 12; i++) {
+		var skill = skills.create(skillsPoints[i-1].x + left_offset, skillsPoints[i-1].y, "sk_" + i);
 
-	papp = game.add.sprite(600, fixedTop, 'papp');
-	pappSpring = game.add.sprite(600, fixedTopSpring, 'invisible');
+		// set left coordinate relative to new anchor
+		skill.x = skill.x + (skill.width/2);
+		skill.y = skill.y + (skill.height/2);
 
+        game.physics.p2.enable(skill);
+        skill.body.motionState = Phaser.Physics.P2.Body.STATIC;
+        skill.body.onBeginContact.add(blockHit, this);
+	};
+}
+
+function createLogo () {
+	logo = game.add.sprite(100, 130, 'logo');
 }
