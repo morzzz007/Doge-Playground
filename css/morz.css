@@ -35,3 +35,20 @@ body, html {
 	border-bottom: 3px solid black;
 	box-shadow: inset 0px 0px 10px 3px rgba(255,255,190,0.8);
 }
+
+.nothing-to-see-here {
+	font-family: 'Gloria Hallelujah', cursive !important;
+	text-align: center;
+	vertical-align: bottom;
+	font-size: 5em;
+	color: white;
+	height: 100%;
+	width: 100%;
+	display: table;
+	position: absolute;
+}
+
+.nothing-to-see-here p{
+	vertical-align: middle;
+	display: table-cell;
+}
