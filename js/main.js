@@ -1,12 +1,14 @@
 define(function (require) {
 
 	var imgStash = require('imagestash');
+	var colFactory = require('collisiongroupfactory');
 
 	var game = new Phaser.Game(window.innerWidth, 580, Phaser.AUTO, 'doge-playground',
 		{ preload: preload, create: create, update: update, render: render });
 	
-	var collisionGroups = {};
 
+	var collisionGroups = {};
+	var collisionGroupFactory = new colFactory.CollisionGroupFactory(game);
 	var aboutMe = new imgStash.ImageStash(game, 'aboutme');
 	
 
@@ -30,6 +32,7 @@ define(function (require) {
 	function preload() {
 	    game.load.spritesheet('doge', 'assets/doge_run.png', 80, 76, 28);    
 	    aboutMe.load();
+	    collisionGroupFactory.summarizeGroups();
 	}
 
 	function create() {
@@ -41,6 +44,7 @@ define(function (require) {
 		game.physics.p2.gravity.y = 500;
 		game.physics.p2.restitution = 0.2;
 		
+		collisionGroupFactory.createGroups(collisionGroups);
 		collisionGroups.doge = game.physics.p2.createCollisionGroup();
 		collisionGroups.other = game.physics.p2.createCollisionGroup();
 

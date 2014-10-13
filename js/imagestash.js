@@ -24,7 +24,7 @@ define(["positions"], function (positions) {
 						
 						// set left coordinate relative to new anchor
 
-						if (properties.physics_enabled) {
+						if (!properties.physics_disabled) {
 							element.x = element.x + (element.width/2);
 							element.y = element.y + (element.height/2);
 
