@@ -7,7 +7,7 @@ define(function (require) {
 	
 	var collisionGroups = {};
 
-	var aboutMe = new imgStash.ImageStash(game, 'aboutme', ['bigPicture', 'email', 'facebook', 'linkedin', 'header']);
+	var aboutMe = new imgStash.ImageStash(game, 'aboutme');
 	
 
 	var doge;

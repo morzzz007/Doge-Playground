@@ -1,9 +1,9 @@
 define(["positions"], function (positions) {
 	return {
-		ImageStash: function (game, sub_domain, image_names_array) {
+		ImageStash: function (game, sub_domain) {
 			this.game 				= game;
 			this.sub_domain 		= sub_domain;
-			this.image_names_array 	= image_names_array;
+			this.image_names_array 	= _.keys(positions[sub_domain]);
 			this.default_directory	= './assets/';
 			this.group;				
 			this.elements = [];
