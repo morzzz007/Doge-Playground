@@ -11,7 +11,7 @@ define(function (require) {
 	var collisionGroupFactory = new colFactory.CollisionGroupFactory(game);
 	var aboutMe = new imgStash.ImageStash(game, 'aboutme');
 	
-
+	var anchor;
 	var doge;
 
 	var wWidth = window.innerWidth;
@@ -46,14 +46,12 @@ define(function (require) {
 		
 		collisionGroupFactory.createGroups(collisionGroups);
 		collisionGroups.doge = game.physics.p2.createCollisionGroup();
-		collisionGroups.other = game.physics.p2.createCollisionGroup();
-
 
 		createSky();
 		aboutMe.create(collisionGroups);
 		createDoge();
+		createAnchor();
 
-		// createSkills();
 		game.physics.p2.updateBoundsCollisionGroup();
 
 		game.physics.p2.enable([doge]);
@@ -62,18 +60,16 @@ define(function (require) {
 		doge.body.collideWorldBounds = true;
 		doge.body.onBeginContact.add(blockHit, this);
         doge.body.setCollisionGroup(collisionGroups.doge);
-        doge.body.collides([collisionGroups.other]);
+        doge.body.collides([collisionGroups.contact]);
 
 		cursors = game.input.keyboard.createCursorKeys();
 	    jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
 	    game.camera.follow(doge);
 
-
-
-		game.physics.p2.createSpring(aboutMe.elements[0], aboutMe.elements[1], 180, 100, 1);
-		game.physics.p2.createSpring(aboutMe.elements[1], aboutMe.elements[2], 10, 20, 1);
-		game.physics.p2.createSpring(aboutMe.elements[2], aboutMe.elements[3], 10, 10, 1);	
+		game.physics.p2.createSpring(anchor, aboutMe.elements[1], aboutMe.elements[1].y, 50);
+		game.physics.p2.createSpring(anchor, aboutMe.elements[2], aboutMe.elements[2].y, 50);
+		game.physics.p2.createSpring(anchor, aboutMe.elements[3], aboutMe.elements[3].y, 50);
 
 	}
 
@@ -84,7 +80,7 @@ define(function (require) {
 	}
 
 	function render () {
-		// game.debug.inputInfo(32, 32);
+		game.debug.inputInfo(32, 32);
 	}
 
 	function update() {
@@ -199,23 +195,10 @@ define(function (require) {
 		doge.animations.add('fly_down_left', [26], 15, true);
 	}
 
-	function createSkills () {
-		skills = game.add.group();
-
-		var left_offset = 190;
-
-		for (var i = 1; i < 12; i++) {
-			var skill = skills.create(skillsPoints[i-1].x + left_offset, skillsPoints[i-1].y, "sk_" + i);
-
-			// set left coordinate relative to new anchor
-			skill.x = skill.x + (skill.width/2);
-			skill.y = skill.y + (skill.height/2);
-
-	        game.physics.p2.enable(skill);
-	        skill.body.motionState = Phaser.Physics.P2.Body.STATIC;
-	        skill.body.onBeginContact.add(blockHit, this);
-		};
+	function createAnchor () {
+		anchor = new Phaser.Physics.P2.Body(game, {mass: 0});
+		anchor.x = 210;
+		anchor.y = 0;
 	}
-
 
 });
