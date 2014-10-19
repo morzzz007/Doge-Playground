@@ -30,7 +30,16 @@ define(["positions"], function (positions) {
 
 							this.game.physics.p2.enable(element);
 							if (properties.motionstate == 'static') {
-	        					element.body.motionState = Phaser.Physics.P2.Body.STATIC;
+								console.log(element.body)
+								element.body.data.mass = 0;
+
+								element.body.onBeginContact.add(blockHit, this);
+								
+								function blockHit (body, shapeA, shapeB, equation) {
+									if (body != null) {
+										body.data.mass = 1;
+									};
+								}
 							};
 
 							if (!_.isUndefined(properties.fixedRotation)) {

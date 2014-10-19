@@ -10,7 +10,9 @@ define(function (require) {
 	var collisionGroups = {};
 	var collisionGroupFactory = new colFactory.CollisionGroupFactory(game);
 	var aboutMe = new imgStash.ImageStash(game, 'aboutme');
-	
+	var skills  = new imgStash.ImageStash(game, 'skills');
+
+
 	var anchor;
 	var doge;
 
@@ -32,6 +34,7 @@ define(function (require) {
 	function preload() {
 	    game.load.spritesheet('doge', 'assets/doge_run.png', 80, 76, 28);    
 	    aboutMe.load();
+	    skills.load();
 	    collisionGroupFactory.summarizeGroups();
 	}
 
@@ -49,6 +52,7 @@ define(function (require) {
 
 		createSky();
 		aboutMe.create(collisionGroups);
+		skills.create(collisionGroups);
 		createDoge();
 		createAnchor();
 
@@ -60,22 +64,22 @@ define(function (require) {
 		doge.body.collideWorldBounds = true;
 		doge.body.onBeginContact.add(blockHit, this);
         doge.body.setCollisionGroup(collisionGroups.doge);
-        doge.body.collides([collisionGroups.contact]);
+        doge.body.collides([collisionGroups.contact, collisionGroups.skills]);
 
 		cursors = game.input.keyboard.createCursorKeys();
 	    jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
 	    game.camera.follow(doge);
 
-		game.physics.p2.createSpring(anchor, aboutMe.elements[1], aboutMe.elements[1].y, 50);
-		game.physics.p2.createSpring(anchor, aboutMe.elements[2], aboutMe.elements[2].y, 50);
-		game.physics.p2.createSpring(anchor, aboutMe.elements[3], aboutMe.elements[3].y, 50);
+		// game.physics.p2.createSpring(anchor, aboutMe.elements[1], aboutMe.elements[1].y, 50);
+		// game.physics.p2.createSpring(anchor, aboutMe.elements[2], aboutMe.elements[2].y, 50);
+		// game.physics.p2.createSpring(anchor, aboutMe.elements[3], aboutMe.elements[3].y, 50);
 
 	}
 
 	function blockHit (body, shapeA, shapeB, equation) {
 		if (body != null) {
-			body.motionState = Phaser.Physics.P2.Body.DYNAMIC;
+			body.data.mass = 1;
 		};
 	}
 
