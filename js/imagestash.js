@@ -29,8 +29,12 @@ define(["positions"], function (positions) {
 							element.y = element.y + (element.height/2);
 
 							this.game.physics.p2.enable(element);
+
+							if (properties.circle) {
+								element.body.setCircle(49/2);
+							};
+
 							if (properties.motionstate == 'static') {
-								console.log(element.body)
 								element.body.data.mass = 0;
 
 								element.body.onBeginContact.add(blockHit, this);

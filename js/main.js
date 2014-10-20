@@ -11,7 +11,7 @@ define(function (require) {
 	var collisionGroupFactory = new colFactory.CollisionGroupFactory(game);
 	var aboutMe = new imgStash.ImageStash(game, 'aboutme');
 	var skills  = new imgStash.ImageStash(game, 'skills');
-
+	var car 	= new imgStash.ImageStash(game, 'car');
 
 	var anchor;
 	var doge;
@@ -35,14 +35,17 @@ define(function (require) {
 	    game.load.spritesheet('doge', 'assets/doge_run.png', 80, 76, 28);    
 	    aboutMe.load();
 	    skills.load();
+	    car.load();
 	    collisionGroupFactory.summarizeGroups();
 	}
 
 	function create() {
 		
 		game.world.setBounds(0, 0, 3500, wHeight);
-		game.physics.startSystem(Phaser.Physics.P2JS);
 
+		game.physics.startSystem(Phaser.Physics.P2JS);
+		// console.log(game.)
+		// game.physics.p2.friction = 100;
 		game.physics.p2.setImpactEvents(true);
 		game.physics.p2.gravity.y = 500;
 		game.physics.p2.restitution = 0.2;
@@ -53,8 +56,8 @@ define(function (require) {
 		createSky();
 		aboutMe.create(collisionGroups);
 		skills.create(collisionGroups);
+		car.create(collisionGroups);
 		createDoge();
-		createAnchor();
 
 		game.physics.p2.updateBoundsCollisionGroup();
 
@@ -64,16 +67,42 @@ define(function (require) {
 		doge.body.collideWorldBounds = true;
 		doge.body.onBeginContact.add(blockHit, this);
         doge.body.setCollisionGroup(collisionGroups.doge);
-        doge.body.collides([collisionGroups.contact, collisionGroups.skills]);
+        doge.body.collides([collisionGroups.contact, collisionGroups.skills, collisionGroups.car]);
+
+		var wheelMaterial	= game.physics.p2.createMaterial('wheelMaterial');
+		game.physics.p2.setMaterial(wheelMaterial, [car.elements[1].body, car.elements[2].body]);
+
+		var fontMaterial 	= game.physics.p2.createMaterial('fontMaterial');
+		_.each(skills.elements, function (element) {
+			game.physics.p2.setMaterial(fontMaterial, [element.body]);
+		});
+		
+
+    	var worldMaterial = game.physics.p2.createMaterial('worldMaterial');
+    	var contactMaterial = game.physics.p2.createContactMaterial(wheelMaterial, worldMaterial);
+    	var contactMaterial2 = game.physics.p2.createContactMaterial(wheelMaterial, fontMaterial);
+    	contactMaterial.friction = 10;
+    	contactMaterial2.friction = 100;
+
+    	game.physics.p2.setWorldMaterial(worldMaterial, true, true, true, true);
+
+		var c1 = game.physics.p2.createPrismaticConstraint(car.elements[0].body, car.elements[1].body, false, [-68, 40], [0, 0], [10, 30]);
+	    c1.upperLimitEnabled = true;
+	    c1.upperLimit = game.physics.p2.pxm(0.2);
+	    c1.lowerLimitEnabled = true;
+	    c1.lowerLimit = game.physics.p2.pxm(-0.4);
+
+		var c2 = game.physics.p2.createPrismaticConstraint(car.elements[0].body, car.elements[2].body, false, [72, 40], [0, 0], [10, 30]);
+	    c2.upperLimitEnabled = true;
+	    c2.upperLimit = game.physics.p2.pxm(0.2);
+	    c2.lowerLimitEnabled = true;
+	    c2.lowerLimit = game.physics.p2.pxm(-0.4);
 
 		cursors = game.input.keyboard.createCursorKeys();
 	    jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+	    eButton = game.input.keyboard.addKey(Phaser.Keyboard.E);
 
 	    game.camera.follow(doge);
-
-		// game.physics.p2.createSpring(anchor, aboutMe.elements[1], aboutMe.elements[1].y, 50);
-		// game.physics.p2.createSpring(anchor, aboutMe.elements[2], aboutMe.elements[2].y, 50);
-		// game.physics.p2.createSpring(anchor, aboutMe.elements[3], aboutMe.elements[3].y, 50);
 
 	}
 
@@ -92,6 +121,11 @@ define(function (require) {
 	    doge.body.velocity.x = 0;
 
 	    var floorResult = checkIfCanJump();
+
+	    if (eButton.isDown) {
+	    	car.elements[1].body.rotateRight(500);
+	    	car.elements[2].body.rotateRight(500);
+	    };
 
 	   	if (cursors.left.isDown)
 	    {
@@ -197,12 +231,6 @@ define(function (require) {
 		doge.animations.add('fly_down_right', [21], 15, true);
 		doge.animations.add('fly_up_left', [27], 15, true);
 		doge.animations.add('fly_down_left', [26], 15, true);
-	}
-
-	function createAnchor () {
-		anchor = new Phaser.Physics.P2.Body(game, {mass: 0});
-		anchor.x = 210;
-		anchor.y = 0;
 	}
 
 });
