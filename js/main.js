@@ -26,6 +26,9 @@ define(function (require) {
 		is_in_car: false
 	};
 
+	/* CAR CONTSRAINTS */
+	var c1, c2, c3;
+
 	// Buttons
 	var cursors;
 	var jumpButton;
@@ -86,17 +89,25 @@ define(function (require) {
 
     	game.physics.p2.setWorldMaterial(worldMaterial, true, true, true, true);
 
-		var c1 = game.physics.p2.createPrismaticConstraint(car.elements[0].body, car.elements[1].body, false, [-68, 40], [0, 0], [10, 30]);
+    	/* CAR WHEELS */
+		c1 = game.physics.p2.createPrismaticConstraint(car.elements[1].body, car.elements[2].body, false, [-68, 40], [0, 0], [10, 30]);
 	    c1.upperLimitEnabled = true;
 	    c1.upperLimit = game.physics.p2.pxm(0.2);
 	    c1.lowerLimitEnabled = true;
 	    c1.lowerLimit = game.physics.p2.pxm(-0.4);
 
-		var c2 = game.physics.p2.createPrismaticConstraint(car.elements[0].body, car.elements[2].body, false, [72, 40], [0, 0], [10, 30]);
+		c2 = game.physics.p2.createPrismaticConstraint(car.elements[1].body, car.elements[3].body, false, [72, 40], [0, 0], [10, 30]);
 	    c2.upperLimitEnabled = true;
 	    c2.upperLimit = game.physics.p2.pxm(0.2);
 	    c2.lowerLimitEnabled = true;
 	    c2.lowerLimit = game.physics.p2.pxm(-0.4);
+
+	    /* DOGE CAR HEAD */
+		c3 = game.physics.p2.createPrismaticConstraint(car.elements[1].body, car.elements[0].body, true, [-20, -40], [0, 0], [10, 40]);
+	    c3.upperLimitEnabled = true;
+	    c3.upperLimit = game.physics.p2.pxm(0.2);
+	    c3.lowerLimitEnabled = true;
+	    c3.lowerLimit = game.physics.p2.pxm(-0.4);	    
 
 		cursors = game.input.keyboard.createCursorKeys();
 	    jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -107,14 +118,22 @@ define(function (require) {
 	}
 
 	function enterCar () {
-		game.camera.follow(car.elements[0].body);
+		game.camera.follow(car.elements[1].body);
 		doge_props.is_in_car = true;
 		doge.kill();
+		car.elements[0].revive();
+		c3 = game.physics.p2.createPrismaticConstraint(car.elements[1].body, car.elements[0].body, true, [-20, -40], [0, 0], [10, 40]);
+	    c3.upperLimitEnabled = true;
+	    c3.upperLimit = game.physics.p2.pxm(0.2);
+	    c3.lowerLimitEnabled = true;
+	    c3.lowerLimit = game.physics.p2.pxm(-0.4);	    
 	}	
 
 	function exitCar () {
 		doge_props.is_in_car = false;
 		doge.reset(600, 20);
+		game.physics.p2.removeConstraint(c3);
+		car.elements[0].kill();
 		game.camera.follow(doge);
 	}
 
@@ -149,8 +168,8 @@ define(function (require) {
 		        doge_props.facing = 'left';
 		        doge_props.state = 'moving';
 		    } else {
-		    	car.elements[1].body.rotateLeft(500);
-	    		car.elements[2].body.rotateLeft(500);
+		    	car.elements[2].body.rotateLeft(500);
+	    		car.elements[3].body.rotateLeft(500);
 		    }
 
 	    }
@@ -161,8 +180,8 @@ define(function (require) {
 	        	doge_props.facing = 'right';
 	        	doge_props.state = 'moving';
 	    	} else {
-	    		car.elements[1].body.rotateRight(500);
 	    		car.elements[2].body.rotateRight(500);
+	    		car.elements[3].body.rotateRight(500);
 	    	}
 	    }
 	    else
