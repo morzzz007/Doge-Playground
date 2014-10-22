@@ -1,5 +1,7 @@
 define(function (require) {
 
+	'use strict';
+
 	var imgStash = require('imagestash');
 	var colFactory = require('collisiongroupfactory');
 
@@ -13,26 +15,25 @@ define(function (require) {
 	var skills  = new imgStash.ImageStash(game, 'skills');
 	var car 	= new imgStash.ImageStash(game, 'car');
 
-	var anchor;
-	var doge;
-
 	var wWidth = window.innerWidth;
 	var wHeight = 580;
 
+	var doge;
 	var doge_props = {
 		x_velocity : 300,
 		facing: 'right',
-		state: 'idle'
+		state: 'idle',
+		is_in_car: false
 	};
 
-	var facing;
-	var jumpTimer;
+	// Buttons
 	var cursors;
 	var jumpButton;
-
+	var enterButton;
 
 	function preload() {
-	    game.load.spritesheet('doge', 'assets/doge_run.png', 80, 76, 28);    
+	    game.load.spritesheet('doge', 'assets/doge_run.png', 80, 76, 28);   
+	    game.load.physics('physicsData', 'assets/car/car.json'); 
 	    aboutMe.load();
 	    skills.load();
 	    car.load();
@@ -44,8 +45,7 @@ define(function (require) {
 		game.world.setBounds(0, 0, 3500, wHeight);
 
 		game.physics.startSystem(Phaser.Physics.P2JS);
-		// console.log(game.)
-		// game.physics.p2.friction = 100;
+
 		game.physics.p2.setImpactEvents(true);
 		game.physics.p2.gravity.y = 500;
 		game.physics.p2.restitution = 0.2;
@@ -65,7 +65,7 @@ define(function (require) {
 
 		doge.body.fixedRotation = true;
 		doge.body.collideWorldBounds = true;
-		doge.body.onBeginContact.add(blockHit, this);
+		doge.body.onBeginContact.add(blockHit);
         doge.body.setCollisionGroup(collisionGroups.doge);
         doge.body.collides([collisionGroups.contact, collisionGroups.skills, collisionGroups.car]);
 
@@ -100,16 +100,28 @@ define(function (require) {
 
 		cursors = game.input.keyboard.createCursorKeys();
 	    jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-	    eButton = game.input.keyboard.addKey(Phaser.Keyboard.E);
+	    enterButton = game.input.keyboard.addKey(Phaser.Keyboard.E);
 
 	    game.camera.follow(doge);
 
 	}
 
+	function enterCar () {
+		game.camera.follow(car.elements[0].body);
+		doge_props.is_in_car = true;
+		doge.kill();
+	}	
+
+	function exitCar () {
+		doge_props.is_in_car = false;
+		doge.reset(600, 20);
+		game.camera.follow(doge);
+	}
+
 	function blockHit (body, shapeA, shapeB, equation) {
-		if (body != null) {
+		if (body !== null) {
 			body.data.mass = 1;
-		};
+		}
 	}
 
 	function render () {
@@ -122,22 +134,36 @@ define(function (require) {
 
 	    var floorResult = checkIfCanJump();
 
-	    if (eButton.isDown) {
-	    	car.elements[1].body.rotateRight(500);
-	    	car.elements[2].body.rotateRight(500);
-	    };
+	    if(enterButton.isDown && enterButton.repeats === 0) {
+	    	if (doge_props.is_in_car) {
+	    		exitCar();
+	    	} else {
+	    		enterCar();
+	    	}
+	    }
 
 	   	if (cursors.left.isDown)
 	    {
-	        doge.body.velocity.x = doge_props.x_velocity * -1;
-	        doge_props.facing = 'left';
-	        doge_props.state = 'moving';
+	    	if (!doge_props.is_in_car) {
+		        doge.body.velocity.x = doge_props.x_velocity * -1;
+		        doge_props.facing = 'left';
+		        doge_props.state = 'moving';
+		    } else {
+		    	car.elements[1].body.rotateLeft(500);
+	    		car.elements[2].body.rotateLeft(500);
+		    }
+
 	    }
 	    else if (cursors.right.isDown)
 	    {
-	        doge.body.velocity.x = doge_props.x_velocity;
-	        doge_props.facing = 'right';
-	        doge_props.state = 'moving';
+	    	if (!doge_props.is_in_car) {
+	    		doge.body.velocity.x = doge_props.x_velocity;
+	        	doge_props.facing = 'right';
+	        	doge_props.state = 'moving';
+	    	} else {
+	    		car.elements[1].body.rotateRight(500);
+	    		car.elements[2].body.rotateRight(500);
+	    	}
 	    }
 	    else
 	    {
@@ -211,9 +237,9 @@ define(function (require) {
 	function createSky () {
 		var skyBitmap 	= game.add.bitmapData(3500, wHeight);
 		var skyGradient = skyBitmap.context.createLinearGradient(0,0,0,wHeight);
-		skyGradient.addColorStop(0,"#91a1f8");
-		skyGradient.addColorStop(1,"#557cac");
-		skyBitmap.context.fillStyle=skyGradient;
+		skyGradient.addColorStop(0, '#91a1f8');
+		skyGradient.addColorStop(1, '#557cac');
+		skyBitmap.context.fillStyle = skyGradient;
 		skyBitmap.context.fillRect(0,0,3500,wHeight);
 		game.add.sprite(0, 0, skyBitmap);
 	}
