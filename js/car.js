@@ -1,4 +1,4 @@
-define('car', ['imageStash', 'buttons'],function (imgStash, buttons){
+define('car', ['imagestash', 'buttons'],function (imgStash, buttons){
 
 	'use strict';
 
