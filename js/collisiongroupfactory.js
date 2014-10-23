@@ -1,8 +1,11 @@
 define(["positions"], function (positions) {
+
+	'use strict';
+
 	return {
 		CollisionGroupFactory: function (game) {
 
-			this.groups;
+			this.groups = {};
 
 			this.summarizeGroups = function () {
 
@@ -12,8 +15,8 @@ define(["positions"], function (positions) {
 					_.each(sub_domain, function (obj) {
 						if (!_.isUndefined(obj.collisionGroup)) {
 							groupsToCreate.push(obj.collisionGroup);
-						};
-					})
+						}
+					});
 				});
 
 				this.groups = _.uniq(groupsToCreate);
@@ -28,8 +31,8 @@ define(["positions"], function (positions) {
 				});
 
 				console.info('Collision groups created.');
-			}
+			};
 
 		}
-	}
+	};
 });
