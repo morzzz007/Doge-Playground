@@ -1,12 +1,7 @@
-define(function (require) {
+define('main', ['require', 'imagestash', 'collisiongroupfactory', 'debuginfo'], 
+	function (require, imgStash, colFactory, debugInfo) {
 
 	'use strict';
-
-	var version = "0.0.0.5";
-	var lastUpdate = "2014.10.23";
-
-	var imgStash = require('imagestash');
-	var colFactory = require('collisiongroupfactory');
 
 	var game = new Phaser.Game(window.innerWidth, 580, Phaser.AUTO, 'doge-playground',
 		{ preload: preload, create: create, update: update, render: render });
@@ -117,8 +112,7 @@ define(function (require) {
 	    jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 	    enterButton = game.input.keyboard.addKey(Phaser.Keyboard.E);
 
-	    game.add.text(500, 10, "Doge Playground\nDev version: " + version + " @ " + lastUpdate, { font: "12px Arial", fill: "#fff" });
-
+	    debugInfo(game);
 	    game.camera.follow(doge);
 
 	}

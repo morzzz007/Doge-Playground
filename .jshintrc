@@ -1,8 +1,10 @@
 {
+	"quotmark": false,
 	"globals": {
 		"define": true,
 		"Phaser": true,
 		"p2": true,
-		"_": true
+		"_": true,
+		"console": true
 	}
 }
