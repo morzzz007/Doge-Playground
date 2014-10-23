@@ -1,5 +1,5 @@
-define('main', ['require', 'imagestash', 'collisiongroupfactory', 'debuginfo', 'doge', 'car', 'buttons'], 
-	function (require, imgStash, colFactory, debugInfo, _doge, _car, buttons) {
+define('main', ['require', 'imagestash', 'collisiongroupfactory', 'debuginfo', 'doge', 'car', 'buttons', 'background'], 
+	function (require, imgStash, colFactory, debugInfo, _doge, _car, buttons, _background) {
 
 	'use strict';
 
@@ -11,25 +11,25 @@ define('main', ['require', 'imagestash', 'collisiongroupfactory', 'debuginfo', '
 	var collisionGroupFactory = new colFactory.CollisionGroupFactory(game);
 	var aboutMe 	= new imgStash.ImageStash(game, 'aboutme');
 	var skills  	= new imgStash.ImageStash(game, 'skills');
+	var background 	= new _background.Background(game);
 	var doge		= new _doge.Doge(game);
 	var car 		= new _car.Car(game);
 
-	var wWidth = window.innerWidth;
+	var wWidth = 3500;
 	var wHeight = 580;
 
 	function preload() {
+		background.preload();
 		doge.preload();
-	    game.load.image('background_tile', 'assets/background.png');
+	    car.preload();
 	    aboutMe.load();
 	    skills.load();
-	    car.preload();
 	    collisionGroupFactory.summarizeGroups();
 	}
 
 	function create() {
 		
-		game.world.setBounds(0, 0, 3500, wHeight);
-
+		game.world.setBounds(0, 0, wWidth, wHeight);
 		game.physics.startSystem(Phaser.Physics.P2JS);
 
 		game.physics.p2.setImpactEvents(true);
@@ -39,7 +39,7 @@ define('main', ['require', 'imagestash', 'collisiongroupfactory', 'debuginfo', '
 		collisionGroupFactory.createGroups(collisionGroups);
 		collisionGroups.doge = game.physics.p2.createCollisionGroup();
 
-		createSky();
+		background.create(wWidth, wHeight);
 		aboutMe.create(collisionGroups);
 		skills.create(collisionGroups);
 		car.create(collisionGroups);
@@ -109,10 +109,6 @@ define('main', ['require', 'imagestash', 'collisiongroupfactory', 'debuginfo', '
 
 
 
-	}
-
-	function createSky () {
-		game.add.tileSprite(0, 0, 3500, wHeight, 'background_tile');
 	}
 
 });
