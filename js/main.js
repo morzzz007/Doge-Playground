@@ -53,7 +53,7 @@ define('main', ['require', 'imagestash', 'collisiongroupfactory', 'debuginfo', '
 			game.physics.p2.setMaterial(fontMaterial, [element.body]);
 		});
 		
-		car.createContactMaterialWithWheels(worldMaterial, 10);
+		car.createContactMaterialWithWheels(worldMaterial, 100);
 		car.createContactMaterialWithWheels(fontMaterial, 100);
 
     	game.physics.p2.setWorldMaterial(worldMaterial, true, true, true, true);
@@ -67,48 +67,13 @@ define('main', ['require', 'imagestash', 'collisiongroupfactory', 'debuginfo', '
 
 	}
 
-	// function enterCar () {
-	// 	game.camera.follow(car.elements[1].body);
-	// 	doge_props.is_in_car = true;
-	// 	doge.kill();
-	// 	car.elements[0].revive();
-	// 	c3 = game.physics.p2.createPrismaticConstraint(car.elements[1].body, car.elements[0].body, true, [-20, -40], [0, 0], [10, 40]);
-	//     c3.upperLimitEnabled = true;
-	//     c3.upperLimit = game.physics.p2.pxm(0.2);
-	//     c3.lowerLimitEnabled = true;
-	//     c3.lowerLimit = game.physics.p2.pxm(-0.4);	    
-	// }	
-
-	// function exitCar () {
-	// 	doge_props.is_in_car = false;
-	// 	doge.reset(600, 20);
-	// 	game.physics.p2.removeConstraint(c3);
-	// 	car.elements[0].kill();
-	// 	game.camera.follow(doge);
-	// }
-
 	function render () {
 		// game.debug.inputInfo(32, 32);
 	}
 
 	function update() {
-
-		if (!doge.is_in_car) {
-			doge.update();
-		} else {
-			car.update();
-		}
-
-	    // if(enterButton.isDown && enterButton.repeats === 0) {
-	    // 	if (doge_props.is_in_car) {
-	    // 		exitCar();
-	    // 	} else {
-	    // 		enterCar();
-	    // 	}
-	    // }
-
-
-
+		doge.update();
+		car.update();
 	}
 
 });

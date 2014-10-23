@@ -13,18 +13,27 @@ define('car', ['imagestash', 'buttons'],function (imgStash, buttons){
 			this.frontWheelConstraint = {};
 			this.dogeHeadConstraint = {};
 
+			this.dogeIsInCar = false;
+
+			this.chassis = {};
+			this.dogeHead = {};
+
 			this.preload = function () {
 				this.game.load.physics('physicsData', 'assets/car/car.json'); 
 				this.car.load();
 			};
 
 			this.create = function (collisionGroups) {
-				this.wheelMaterial = this.game.physics.p2.createMaterial('wheelMaterial');
 				this.car.create(collisionGroups);
+				this.chassis = this.car.elements[1].body;
+				this.dogeHead = this.car.elements[0];
+				this.wheelMaterial = this.game.physics.p2.createMaterial('wheelMaterial');
+				this.game.physics.p2.setMaterial(this.wheelMaterial, [this.car.elements[1].body, this.car.elements[2].body]);
+				this.dogeHead.kill();
 			};
 
 			this.createContactMaterialWithWheels = function (anotherMaterial, friction) {
-    			var contactMaterial = game.physics.p2.createContactMaterial(this.wheelMaterial, anotherMaterial);
+    			var contactMaterial = this.game.physics.p2.createContactMaterial(this.wheelMaterial, anotherMaterial);
     			contactMaterial.friction = friction;
 			};
 
@@ -41,16 +50,32 @@ define('car', ['imagestash', 'buttons'],function (imgStash, buttons){
 			    this.frontWheelConstraint.upperLimit = this.game.physics.p2.pxm(0.2);
 			    this.frontWheelConstraint.lowerLimitEnabled = true;
 			    this.frontWheelConstraint.lowerLimit = this.game.physics.p2.pxm(-0.4);
+ 			};
 
-			    /* DOGE CAR HEAD */
-				this.dogeHeadConstraint = this.game.physics.p2.createPrismaticConstraint(this.car.elements[1].body, this.car.elements[0].body, true, [-20, -40], [0, 0], [10, 40]);
-			    this.dogeHeadConstraint.upperLimitEnabled = true;
-			    this.dogeHeadConstraint.upperLimit = this.game.physics.p2.pxm(0.2);
-			    this.dogeHeadConstraint.lowerLimitEnabled = true;
-			    this.dogeHeadConstraint.lowerLimit = this.game.physics.p2.pxm(-0.4);	 
+			this.toggleHeadConstraint = function (state) {
+				if (state) {
+					this.dogeHeadConstraint = this.game.physics.p2.createPrismaticConstraint(this.car.elements[1].body, this.car.elements[0].body, true, [-20, -40], [0, 0], [10, 40]);
+				    this.dogeHeadConstraint.upperLimitEnabled = true;
+				    this.dogeHeadConstraint.upperLimit = this.game.physics.p2.pxm(0.2);
+				    this.dogeHeadConstraint.lowerLimitEnabled = true;
+				    this.dogeHeadConstraint.lowerLimit = this.game.physics.p2.pxm(-0.4);	
+				} else {
+					this.game.physics.p2.removeConstraint(this.dogeHeadConstraint);
+				}
 			};
 
 			this.update = function () {
+
+			    if(buttons.enterButton.isDown && buttons.enterButton.repeats === 0) {
+			    	if (this.dogeIsInCar) {
+			    		this.exitCar();
+			    	} else {
+			    		this.enterCar();
+			    	}
+			    }
+				
+				if (!this.dogeIsInCar) return;
+				
 			   	if (buttons.cursors.left.isDown)
 			    {
 			    	this.car.elements[2].body.rotateLeft(500);
@@ -61,10 +86,25 @@ define('car', ['imagestash', 'buttons'],function (imgStash, buttons){
 					this.car.elements[2].body.rotateRight(500);
 		    		this.car.elements[3].body.rotateRight(500);
 			    }
+
 			};
 
-			this.cameraFollow = function (game) {
+			this.cameraFollow = function () {
+				this.game.camera.follow(this.chassis);
+			};
 
+			this.enterCar = function () {
+				this.dogeIsInCar = true;
+				// FIXME: revive near car chassis
+				this.dogeHead.revive();
+				this.cameraFollow();
+				this.toggleHeadConstraint(this.dogeIsInCar);
+			};
+
+			this.exitCar = function () {
+				this.dogeIsInCar = false;
+				this.toggleHeadConstraint(this.dogeIsInCar);
+				this.dogeHead.kill();
 			};
 
 		}

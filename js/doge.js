@@ -67,6 +67,20 @@ define(['buttons'], function (buttons){
 			};
 
 			this.update = function () {
+
+			    if(buttons.enterButton.isDown && buttons.enterButton.repeats === 0) {
+			    	if (this.is_in_car) {
+			    		this.exitCar();
+			    	} else {
+			    		this.enterCar();
+			    	}
+			    }
+
+			    // ---
+			    // Only calculate the following when doge is in action
+			    if (this.is_in_car) return;
+			    // ---
+
 				this.doge.body.velocity.x = 0;
 				var floorResult = checkIfCanJump(game, this.doge);
 
@@ -131,10 +145,22 @@ define(['buttons'], function (buttons){
 			    {
 			        this.doge.body.velocity.y = -400;
 			    }
+
 			};
 
 			this.cameraFollow = function () {
 				this.game.camera.follow(this.doge);
+			};
+
+			this.enterCar = function () {
+				this.is_in_car = true;
+				this.doge.kill();
+			};
+
+			this.exitCar = function () {
+				this.is_in_car = false;
+				this.doge.reset(600, 20);
+				this.cameraFollow();
 			};
 
 		}
