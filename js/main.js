@@ -2,6 +2,9 @@ define(function (require) {
 
 	'use strict';
 
+	var version = "0.0.0.5";
+	var lastUpdate = "2014.10.23";
+
 	var imgStash = require('imagestash');
 	var colFactory = require('collisiongroupfactory');
 
@@ -114,6 +117,8 @@ define(function (require) {
 	    jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 	    enterButton = game.input.keyboard.addKey(Phaser.Keyboard.E);
 
+	    game.add.text(500, 10, "Doge Playground\nDev version: " + version + " @ " + lastUpdate, { font: "12px Arial", fill: "#fff" });
+
 	    game.camera.follow(doge);
 
 	}
@@ -145,7 +150,7 @@ define(function (require) {
 	}
 
 	function render () {
-		game.debug.inputInfo(32, 32);
+		// game.debug.inputInfo(32, 32);
 	}
 
 	function update() {
@@ -256,13 +261,6 @@ define(function (require) {
 
 	function createSky () {
 		game.add.tileSprite(0, 0, 3500, wHeight, 'background_tile');
-		// var skyBitmap 	= game.add.bitmapData(3500, wHeight);
-		// var skyGradient = skyBitmap.context.createLinearGradient(0,0,0,wHeight);
-		// skyGradient.addColorStop(0, '#91a1f8');
-		// skyGradient.addColorStop(1, '#557cac');
-		// skyBitmap.context.fillStyle = skyGradient;
-		// skyBitmap.context.fillRect(0,0,3500,wHeight);
-		// game.add.sprite(0, 0, skyBitmap);
 	}
 
 	function createDoge () {
