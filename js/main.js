@@ -35,7 +35,8 @@ define(function (require) {
 	var enterButton;
 
 	function preload() {
-	    game.load.spritesheet('doge', 'assets/doge_run.png', 80, 76, 28);   
+	    game.load.spritesheet('doge', 'assets/doge_run.png', 80, 76, 28);
+	    game.load.image('background_tile', 'assets/background.png');
 	    game.load.physics('physicsData', 'assets/car/car.json'); 
 	    aboutMe.load();
 	    skills.load();
@@ -254,13 +255,14 @@ define(function (require) {
 	}
 
 	function createSky () {
-		var skyBitmap 	= game.add.bitmapData(3500, wHeight);
-		var skyGradient = skyBitmap.context.createLinearGradient(0,0,0,wHeight);
-		skyGradient.addColorStop(0, '#91a1f8');
-		skyGradient.addColorStop(1, '#557cac');
-		skyBitmap.context.fillStyle = skyGradient;
-		skyBitmap.context.fillRect(0,0,3500,wHeight);
-		game.add.sprite(0, 0, skyBitmap);
+		game.add.tileSprite(0, 0, 3500, wHeight, 'background_tile');
+		// var skyBitmap 	= game.add.bitmapData(3500, wHeight);
+		// var skyGradient = skyBitmap.context.createLinearGradient(0,0,0,wHeight);
+		// skyGradient.addColorStop(0, '#91a1f8');
+		// skyGradient.addColorStop(1, '#557cac');
+		// skyBitmap.context.fillStyle = skyGradient;
+		// skyBitmap.context.fillRect(0,0,3500,wHeight);
+		// game.add.sprite(0, 0, skyBitmap);
 	}
 
 	function createDoge () {
