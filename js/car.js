@@ -97,8 +97,7 @@ define('car', ['imagestash', 'buttons', 'gamestate'],function (imgStash, buttons
 
 			this.enterCar = function () {
 				this.dogeIsInCar = true;
-				// FIXME: revive near car chassis
-				this.dogeHead.revive();
+				this.dogeHead.reset(this.car.elements[1].body.x - 50, this.car.elements[1].body.y - 50);
 				this.cameraFollow();
 				this.toggleHeadConstraint(this.dogeIsInCar);
 			};

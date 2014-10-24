@@ -167,7 +167,7 @@ define(['buttons', 'bubble', 'gamestate'], function (buttons, bubble, gamestate)
 
 			this.exitCar = function () {
 				this.is_in_car = false;
-				this.doge.reset(600, 20);
+				this.doge.reset(gamestate.car_coordinates.x- 40, gamestate.car_coordinates.y - 60);
 				this.cameraFollow();
 			};
 
