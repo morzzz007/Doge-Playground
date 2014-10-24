@@ -1,4 +1,4 @@
-define(['buttons'], function (buttons){
+define(['buttons', 'bubble', 'gamestate'], function (buttons, bubble, gamestate){
 
 	'use strict';
 
@@ -68,11 +68,17 @@ define(['buttons'], function (buttons){
 
 			this.update = function () {
 
+				gamestate.updateDogeCoordinates(this.doge.body.x, this.doge.body.y);
+
 			    if(buttons.enterButton.isDown && buttons.enterButton.repeats === 0) {
 			    	if (this.is_in_car) {
+			    		gamestate.dogeExitedTheCar();
 			    		this.exitCar();
 			    	} else {
-			    		this.enterCar();
+			    		if (gamestate.canDogeEnterTheCar()) {
+				    		gamestate.dogeEnteredTheCar();
+				    		this.enterCar();
+			    		}
 			    	}
 			    }
 
@@ -80,6 +86,8 @@ define(['buttons'], function (buttons){
 			    // Only calculate the following when doge is in action
 			    if (this.is_in_car) return;
 			    // ---
+
+			    bubble.updatePosition(this.doge.body.x, this.doge.body.y);
 
 				this.doge.body.velocity.x = 0;
 				var floorResult = checkIfCanJump(game, this.doge);

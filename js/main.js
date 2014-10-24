@@ -1,5 +1,5 @@
-define('main', ['require', 'imagestash', 'collisiongroupfactory', 'debuginfo', 'doge', 'car', 'buttons', 'background'], 
-	function (require, imgStash, colFactory, debugInfo, _doge, _car, buttons, _background) {
+define('main', ['require', 'imagestash', 'collisiongroupfactory', 'debuginfo', 'doge', 'car', 'buttons', 'background', 'bubble', 'gamestate'], 
+	function (require, imgStash, colFactory, debugInfo, _doge, _car, buttons, _background, bubble, gamestate) {
 
 	'use strict';
 
@@ -19,7 +19,10 @@ define('main', ['require', 'imagestash', 'collisiongroupfactory', 'debuginfo', '
 	var wHeight = 580;
 
 	function preload() {
+		bubble.setup(game);
+		gamestate.setup(game);
 		background.preload();
+		bubble.preload();
 		doge.preload();
 	    car.preload();
 	    aboutMe.load();

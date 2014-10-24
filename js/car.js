@@ -1,4 +1,4 @@
-define('car', ['imagestash', 'buttons'],function (imgStash, buttons){
+define('car', ['imagestash', 'buttons', 'gamestate'],function (imgStash, buttons, gamestate){
 
 	'use strict';
 
@@ -66,11 +66,13 @@ define('car', ['imagestash', 'buttons'],function (imgStash, buttons){
 
 			this.update = function () {
 
+				gamestate.updateCarCoordinates(this.car.elements[1].body.x, this.car.elements[1].body.y);
+
 			    if(buttons.enterButton.isDown && buttons.enterButton.repeats === 0) {
-			    	if (this.dogeIsInCar) {
-			    		this.exitCar();
-			    	} else {
+			    	if (!this.dogeIsInCar && gamestate.canDogeEnterTheCar()) {
 			    		this.enterCar();
+			    	} else {
+			    		this.exitCar();
 			    	}
 			    }
 				
