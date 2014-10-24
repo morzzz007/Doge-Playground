@@ -4,6 +4,7 @@ define({
 
 	game: null,
 	doge_is_in_car: false,
+	enter_car_helper_shown: false,
 	doge_coordinates: null,
 	car_coordinates: null,
 
@@ -36,6 +37,7 @@ define({
 	},
 
 	dogeEnteredTheCar: function () {
+		this.enter_car_helper_shown = true;
 		this.doge_is_in_car = true;
 	},
 	dogeExitedTheCar: function () {

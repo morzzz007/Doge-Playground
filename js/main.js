@@ -47,6 +47,7 @@ define('main', ['require', 'imagestash', 'collisiongroupfactory', 'debuginfo', '
 		skills.create(collisionGroups);
 		car.create(collisionGroups);
 		doge.create(collisionGroups);
+		bubble.create();
 
 		game.physics.p2.updateBoundsCollisionGroup();
 
@@ -77,6 +78,7 @@ define('main', ['require', 'imagestash', 'collisiongroupfactory', 'debuginfo', '
 	function update() {
 		doge.update();
 		car.update();
+		bubble.update();
 	}
 
 });

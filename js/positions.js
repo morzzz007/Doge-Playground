@@ -32,10 +32,10 @@ define({
     	css3 		: { x: 1364 + 77, 	y: 185 + 228, motionstate: 'static', collisionGroup: 'skills', collides: ['contact', 'skills', 'doge', 'car', 'wheel']},
     },
     car: {
-    	head		: { x: 500, 		y: 400, collisionGroup: 'car', collides: ['skills', 'contact', 'doge']},
-        car         : { x: 500,         y: 400, collisionGroup: 'car', collides: ['skills', 'contact', 'doge']},
-        fwheel      : { x: 500,         y: 500, circle: true, collisionGroup: 'wheel', collides: ['skills', 'contact', 'doge']},
-        rwheel      : { x: 550,         y: 500, circle: true, collisionGroup: 'wheel', collides: ['skills', 'contact', 'doge']},
+    	head		: { x: 800, 		y: 400, collisionGroup: 'car', collides: ['skills', 'contact', 'doge']},
+        car         : { x: 800,         y: 400, collisionGroup: 'car', collides: ['skills', 'contact', 'doge']},
+        fwheel      : { x: 800,         y: 500, circle: true, collisionGroup: 'wheel', collides: ['skills', 'contact', 'doge']},
+        rwheel      : { x: 880,         y: 500, circle: true, collisionGroup: 'wheel', collides: ['skills', 'contact', 'doge']},
     },
 
 });
