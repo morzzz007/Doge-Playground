@@ -11,31 +11,34 @@ define({
     	header 		: { x: 520, y: 195, motionstate: 'static' }
     },
     skills: {
-    	frontend	: { x: 1315, 		y: 185, motionstate: 'static', collisionGroup: 'skills', collides: ['contact', 'skills', 'doge', 'car', 'wheel']},
-    	skills		: { x: 1555, 		y: 185, motionstate: 'static', collisionGroup: 'skills', collides: ['contact', 'skills', 'doge', 'car', 'wheel']},
+    	frontend	: { x: 1315, 		y: 185, motionstate: 'static', collisionGroup: 'skills', collides: ['contact', 'skills', 'doge', 'car', 'wheel', 'history']},
+    	skills		: { x: 1555, 		y: 185, motionstate: 'static', collisionGroup: 'skills', collides: ['contact', 'skills', 'doge', 'car', 'wheel', 'history']},
 
-    	angular 	: { x: 1364, 		y: 185 + 47, motionstate: 'static', collisionGroup: 'skills', collides: ['contact', 'skills', 'doge', 'car', 'wheel']},
-    	knockout 	: { x: 1364, 		y: 185 + 88, motionstate: 'static', collisionGroup: 'skills', collides: ['contact', 'skills', 'doge', 'car', 'wheel']},
+    	angular 	: { x: 1364, 		y: 185 + 47, motionstate: 'static', collisionGroup: 'skills', collides: ['contact', 'skills', 'doge', 'car', 'wheel', 'history']},
+    	knockout 	: { x: 1364, 		y: 185 + 88, motionstate: 'static', collisionGroup: 'skills', collides: ['contact', 'skills', 'doge', 'car', 'wheel', 'history']},
 
-    	jquery 		: { x: 1364, 		y: 185 + 123, motionstate: 'static', collisionGroup: 'skills', collides: ['contact', 'skills', 'doge', 'car', 'wheel']},
-    	underscore  : { x: 1364 + 86, 	y: 185 + 123, motionstate: 'static', collisionGroup: 'skills', collides: ['contact', 'skills', 'doge', 'car', 'wheel']},
+    	jquery 		: { x: 1364, 		y: 185 + 123, motionstate: 'static', collisionGroup: 'skills', collides: ['contact', 'skills', 'doge', 'car', 'wheel', 'history']},
+    	underscore  : { x: 1364 + 86, 	y: 185 + 123, motionstate: 'static', collisionGroup: 'skills', collides: ['contact', 'skills', 'doge', 'car', 'wheel', 'history']},
 
-    	karma 		: { x: 1364, 		y: 185 + 149, motionstate: 'static', collisionGroup: 'skills', collides: ['contact', 'skills', 'doge', 'car', 'wheel']},
-    	jasmine 	: { x: 1364 + 84, 	y: 185 + 149, motionstate: 'static', collisionGroup: 'skills', collides: ['contact', 'skills', 'doge', 'car', 'wheel']},
+    	karma 		: { x: 1364, 		y: 185 + 149, motionstate: 'static', collisionGroup: 'skills', collides: ['contact', 'skills', 'doge', 'car', 'wheel', 'history']},
+    	jasmine 	: { x: 1364 + 84, 	y: 185 + 149, motionstate: 'static', collisionGroup: 'skills', collides: ['contact', 'skills', 'doge', 'car', 'wheel', 'history']},
 
-    	bower 		: { x: 1364, 		y: 185 + 175, motionstate: 'static', collisionGroup: 'skills', collides: ['contact', 'skills', 'doge', 'car', 'wheel']},
-    	grunt 		: { x: 1364 + 82, 	y: 185 + 175, motionstate: 'static', collisionGroup: 'skills', collides: ['contact', 'skills', 'doge', 'car', 'wheel']},
+    	bower 		: { x: 1364, 		y: 185 + 175, motionstate: 'static', collisionGroup: 'skills', collides: ['contact', 'skills', 'doge', 'car', 'wheel', 'history']},
+    	grunt 		: { x: 1364 + 82, 	y: 185 + 175, motionstate: 'static', collisionGroup: 'skills', collides: ['contact', 'skills', 'doge', 'car', 'wheel', 'history']},
 
-    	bootstrap 	: { x: 1364, 		y: 185 + 202, motionstate: 'static', collisionGroup: 'skills', collides: ['contact', 'skills', 'doge', 'car', 'wheel']},
+    	bootstrap 	: { x: 1364, 		y: 185 + 202, motionstate: 'static', collisionGroup: 'skills', collides: ['contact', 'skills', 'doge', 'car', 'wheel', 'history']},
 
-    	html5 		: { x: 1364, 		y: 185 + 228, motionstate: 'static', collisionGroup: 'skills', collides: ['contact', 'skills', 'doge', 'car', 'wheel']},
-    	css3 		: { x: 1364 + 77, 	y: 185 + 228, motionstate: 'static', collisionGroup: 'skills', collides: ['contact', 'skills', 'doge', 'car', 'wheel']},
+    	html5 		: { x: 1364, 		y: 185 + 228, motionstate: 'static', collisionGroup: 'skills', collides: ['contact', 'skills', 'doge', 'car', 'wheel', 'history']},
+    	css3 		: { x: 1364 + 77, 	y: 185 + 228, motionstate: 'static', collisionGroup: 'skills', collides: ['contact', 'skills', 'doge', 'car', 'wheel', 'history']},
     },
     car: {
-    	head		: { x: 800, 		y: 400, collisionGroup: 'car', collides: ['skills', 'contact', 'doge']},
-        car         : { x: 800,         y: 400, collisionGroup: 'car', collides: ['skills', 'contact', 'doge']},
-        fwheel      : { x: 800,         y: 500, circle: true, collisionGroup: 'wheel', collides: ['skills', 'contact', 'doge']},
-        rwheel      : { x: 880,         y: 500, circle: true, collisionGroup: 'wheel', collides: ['skills', 'contact', 'doge']},
+    	head		: { x: 800, 		y: 400, collisionGroup: 'car', collides: ['skills', 'contact', 'doge', 'history']},
+        car         : { x: 800,         y: 400, collisionGroup: 'car', collides: ['skills', 'contact', 'doge', 'history']},
+        fwheel      : { x: 800,         y: 500, circle: true, collisionGroup: 'wheel', collides: ['skills', 'contact', 'doge', 'history']},
+        rwheel      : { x: 880,         y: 500, circle: true, collisionGroup: 'wheel', collides: ['skills', 'contact', 'doge', 'history']},
     },
+    history: {
+        timeline    : { x: 1900,        y: 350, collisionGroup: 'history', motionstate: 'static', scene: true, collides: ['doge', 'skills', 'contact', 'car', 'wheel']}
+    }
 
 });

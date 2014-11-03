@@ -1,6 +1,6 @@
 'use strict';
 
-define('bubble', ["gamestate"], function (gamestate) {
+define('helperbubble', ["gamestate"], function (gamestate) {
 
 	return {
 
@@ -14,7 +14,6 @@ define('bubble', ["gamestate"], function (gamestate) {
 
 		preload: function () {
 			this.game.load.spritesheet('bubble_enter_car', 'assets/bubbles/entercar.png', 348, 58, 2);
-
 		},
 
 		create: function () {
@@ -35,6 +34,7 @@ define('bubble', ["gamestate"], function (gamestate) {
 		},
 
 		updatePosition: function (newX, newY) {
+			// FIXME: don't calculate anything when not displayed on screen
 			var trCoords = this.transformCoordinates(newX, newY);
 			this.bubble.x = trCoords.x;
 			this.bubble.y = trCoords.y;

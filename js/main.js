@@ -1,9 +1,9 @@
-define('main', ['require', 'imagestash', 'collisiongroupfactory', 'debuginfo', 'doge', 'car', 'buttons', 'background', 'bubble', 'gamestate'], 
-	function (require, imgStash, colFactory, debugInfo, _doge, _car, buttons, _background, bubble, gamestate) {
+define('main', ['require', 'imagestash', 'collisiongroupfactory', 'debuginfo', 'doge', 'car', 'history', 'buttons', 'background','materials', 'helperbubble', 'gamestate'], 
+	function (require, imgStash, colFactory, debugInfo, _doge, _car, _history, buttons, _background, materials, helperbubble, gamestate) {
 
 	'use strict';
 
-	var game = new Phaser.Game(window.innerWidth, 580, Phaser.AUTO, 'doge-playground',
+	var game = new Phaser.Game(window.innerWidth, 645, Phaser.AUTO, 'doge-playground',
 		{ preload: preload, create: create, update: update, render: render });
 	
 
@@ -14,17 +14,19 @@ define('main', ['require', 'imagestash', 'collisiongroupfactory', 'debuginfo', '
 	var background 	= new _background.Background(game);
 	var doge		= new _doge.Doge(game);
 	var car 		= new _car.Car(game);
+	var history 	= new _history.History(game);
 
 	var wWidth = 3500;
-	var wHeight = 580;
+	var wHeight = 645;
 
 	function preload() {
-		bubble.setup(game);
+		helperbubble.setup(game);
 		gamestate.setup(game);
 		background.preload();
-		bubble.preload();
+		helperbubble.preload();
 		doge.preload();
 	    car.preload();
+	    history.preload();
 	    aboutMe.load();
 	    skills.load();
 	    collisionGroupFactory.summarizeGroups();
@@ -35,6 +37,8 @@ define('main', ['require', 'imagestash', 'collisiongroupfactory', 'debuginfo', '
 		game.world.setBounds(0, 0, wWidth, wHeight);
 		game.physics.startSystem(Phaser.Physics.P2JS);
 
+		materials.createMaterials(game);
+
 		game.physics.p2.setImpactEvents(true);
 		game.physics.p2.gravity.y = 500;
 		game.physics.p2.restitution = 0.2;
@@ -42,25 +46,24 @@ define('main', ['require', 'imagestash', 'collisiongroupfactory', 'debuginfo', '
 		collisionGroupFactory.createGroups(collisionGroups);
 		collisionGroups.doge = game.physics.p2.createCollisionGroup();
 
-		background.create(wWidth, wHeight);
+		background.create(wWidth, wHeight, collisionGroups);
 		aboutMe.create(collisionGroups);
 		skills.create(collisionGroups);
 		car.create(collisionGroups);
 		doge.create(collisionGroups);
-		bubble.create();
+		history.create(collisionGroups);
+		helperbubble.create();
 
 		game.physics.p2.updateBoundsCollisionGroup();
 
-    	var worldMaterial 	= game.physics.p2.createMaterial('worldMaterial');
-		var fontMaterial 	= game.physics.p2.createMaterial('fontMaterial');
 		_.each(skills.elements, function (element) {
-			game.physics.p2.setMaterial(fontMaterial, [element.body]);
+			game.physics.p2.setMaterial(materials.fontMaterial, [element.body]);
 		});
 		
-		car.createContactMaterialWithWheels(worldMaterial, 100);
-		car.createContactMaterialWithWheels(fontMaterial, 100);
+		car.createContactMaterialWithWheels(materials.worldMaterial, 100);
+		car.createContactMaterialWithWheels(materials.fontMaterial, 100);
 
-    	game.physics.p2.setWorldMaterial(worldMaterial, true, true, true, true);
+    	game.physics.p2.setWorldMaterial(materials.worldMaterial, true, true, true, true);
 
 		car.createConstraints();   
 
@@ -78,7 +81,8 @@ define('main', ['require', 'imagestash', 'collisiongroupfactory', 'debuginfo', '
 	function update() {
 		doge.update();
 		car.update();
-		bubble.update();
+		helperbubble.update();
+		history.update();
 	}
 
 });

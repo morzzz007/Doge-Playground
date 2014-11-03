@@ -11,6 +11,8 @@ define(["positions"], function (positions) {
 
 				var groupsToCreate = [];
 
+				groupsToCreate.push('background');
+
 				_.each(positions, function (sub_domain) {
 					_.each(sub_domain, function (obj) {
 						if (!_.isUndefined(obj.collisionGroup)) {

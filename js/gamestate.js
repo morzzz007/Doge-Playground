@@ -40,6 +40,7 @@ define({
 		this.enter_car_helper_shown = true;
 		this.doge_is_in_car = true;
 	},
+	
 	dogeExitedTheCar: function () {
 		this.doge_is_in_car = false;
 	},

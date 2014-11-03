@@ -1,4 +1,4 @@
-define(['buttons', 'bubble', 'gamestate'], function (buttons, bubble, gamestate){
+define(['buttons', 'helperbubble', 'gamestate'], function (buttons, helperbubble, gamestate){
 
 	'use strict';
 
@@ -12,8 +12,8 @@ define(['buttons', 'bubble', 'gamestate'], function (buttons, bubble, gamestate)
 			this.state = 'idle';
 			this.is_in_car = false;
 
-			function blockHit (body) { 		// body, shapeA, shapeB, equation
-				if (body !== null) {
+			function blockHit (body, shapeA, shapeB, equation) { 		// body, shapeA, shapeB, equation
+				if (body !== null && _.isUndefined(body.static_forever)) {
 					body.data.mass = 1;
 				}
 			}
@@ -63,7 +63,7 @@ define(['buttons', 'bubble', 'gamestate'], function (buttons, bubble, gamestate)
 				this.doge.body.collideWorldBounds = true;
 				this.doge.body.onBeginContact.add(blockHit);
 		        this.doge.body.setCollisionGroup(collisionGroups.doge);
-		        this.doge.body.collides([collisionGroups.contact, collisionGroups.skills, collisionGroups.car]);
+		        this.doge.body.collides([collisionGroups.contact, collisionGroups.skills, collisionGroups.car, collisionGroups.history, collisionGroups.background]);
 			};
 
 			this.update = function () {
@@ -87,7 +87,7 @@ define(['buttons', 'bubble', 'gamestate'], function (buttons, bubble, gamestate)
 			    if (this.is_in_car) return;
 			    // ---
 
-			    bubble.updatePosition(this.doge.body.x, this.doge.body.y);
+			    helperbubble.updatePosition(this.doge.body.x, this.doge.body.y);
 
 				this.doge.body.velocity.x = 0;
 				var floorResult = checkIfCanJump(game, this.doge);

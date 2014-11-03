@@ -65,9 +65,20 @@ define(["positions"], function (positions) {
 								element.body.setCollisionGroup(collisionGroups[properties.collisionGroup]);
 							}
 
+							if (!_.isUndefined(properties.scene)) {
+								element.body.static = true;
+								element.body.mass = 1000;
+								element.body.fixedRotation = true;
+								element.body.static_forever = true;
+							}
+
 							if (!_.isUndefined(properties.collides)) {
 
 								var tempGroups = [];
+
+								// collides with 'background objects by default'
+								tempGroups.push(collisionGroups['background']);
+
 								_.each(properties.collides, function (group) {
 									tempGroups.push(collisionGroups[group]);
 								});
