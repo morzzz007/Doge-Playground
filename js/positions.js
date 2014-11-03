@@ -38,7 +38,12 @@ define({
         rwheel      : { x: 880,         y: 500, circle: true, collisionGroup: 'wheel', collides: ['skills', 'contact', 'doge', 'history']},
     },
     history: {
-        timeline    : { x: 1900,        y: 350, collisionGroup: 'history', motionstate: 'static', scene: true, collides: ['doge', 'skills', 'contact', 'car', 'wheel']}
+        timeline    : { x: 1900,        y: 350, collisionGroup: 'history', motionstate: 'static', scene: true, collides: ['doge', 'skills', 'contact', 'car', 'wheel']},
+        sign_2005   : { x: 1900 + (1*90 + 0*65),        y: 290, collisionGroup: 'history', motionstate: 'static', scene: true, collides: []},
+        sign_2007   : { x: 1900 + (2*90 + 1*65),        y: 290, collisionGroup: 'history', motionstate: 'static', scene: true, collides: []},
+        sign_2009   : { x: 1900 + (3*90 + 2*65),        y: 290, collisionGroup: 'history', motionstate: 'static', scene: true, collides: []},
+        sign_2011   : { x: 1900 + (4*90 + 3*65),        y: 290, collisionGroup: 'history', motionstate: 'static', scene: true, collides: []},
+        sign_2013   : { x: 1900 + (5*90 + 4*65),        y: 290, collisionGroup: 'history', motionstate: 'static', scene: true, collides: []},
     }
 
 });

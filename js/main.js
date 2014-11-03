@@ -50,8 +50,8 @@ define('main', ['require', 'imagestash', 'collisiongroupfactory', 'debuginfo', '
 		aboutMe.create(collisionGroups);
 		skills.create(collisionGroups);
 		car.create(collisionGroups);
-		doge.create(collisionGroups);
 		history.create(collisionGroups);
+		doge.create(collisionGroups);
 		helperbubble.create();
 
 		game.physics.p2.updateBoundsCollisionGroup();

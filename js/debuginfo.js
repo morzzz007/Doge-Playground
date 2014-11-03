@@ -2,7 +2,7 @@ define(function () {
 
 	'use strict';
 
-	var version = "0.0.0.5.6";
+	var version = "0.0.0.5.7";
 	var lastUpdate = "2014.11.03";
 
 	return function (game) {
