@@ -17,7 +17,6 @@ define('history', ['imagestash', 'gamestate'],function (imgStash, gamestate){
 			};
 
 			this.update = function(){
-				console.log('what to do?');
 			}
 		}
 	};

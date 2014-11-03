@@ -1,5 +1,5 @@
-define('main', ['require', 'imagestash', 'collisiongroupfactory', 'debuginfo', 'doge', 'car', 'history', 'buttons', 'background','materials', 'helperbubble', 'gamestate'], 
-	function (require, imgStash, colFactory, debugInfo, _doge, _car, _history, buttons, _background, materials, helperbubble, gamestate) {
+define('main', ['require', 'imagestash', 'collisiongroupfactory', 'debuginfo', 'doge', 'car', 'history', 'buttons', 'background','materials', 'helperbubble','historybubble', 'gamestate'], 
+	function (require, imgStash, colFactory, debugInfo, _doge, _car, _history, buttons, _background, materials, helperbubble, historybubble, gamestate) {
 
 	'use strict';
 
@@ -21,12 +21,15 @@ define('main', ['require', 'imagestash', 'collisiongroupfactory', 'debuginfo', '
 
 	function preload() {
 		helperbubble.setup(game);
+		historybubble.setup(game);
 		gamestate.setup(game);
 		background.preload();
 		helperbubble.preload();
 		doge.preload();
 	    car.preload();
 	    history.preload();
+		historybubble.preload();
+		
 	    aboutMe.load();
 	    skills.load();
 	    collisionGroupFactory.summarizeGroups();
@@ -53,6 +56,7 @@ define('main', ['require', 'imagestash', 'collisiongroupfactory', 'debuginfo', '
 		history.create(collisionGroups);
 		doge.create(collisionGroups);
 		helperbubble.create();
+		historybubble.create();
 
 		game.physics.p2.updateBoundsCollisionGroup();
 
@@ -82,6 +86,7 @@ define('main', ['require', 'imagestash', 'collisiongroupfactory', 'debuginfo', '
 		doge.update();
 		car.update();
 		helperbubble.update();
+		historybubble.update();
 		history.update();
 	}
 
