@@ -44,6 +44,10 @@ define({
         sign_2009   : { x: 1900 + (3*90 + 2*65),        y: 290, collisionGroup: 'history', motionstate: 'static', scene: true, collides: []},
         sign_2011   : { x: 1900 + (4*90 + 3*65),        y: 290, collisionGroup: 'history', motionstate: 'static', scene: true, collides: []},
         sign_2013   : { x: 1900 + (5*90 + 4*65),        y: 290, collisionGroup: 'history', motionstate: 'static', scene: true, collides: []},
+    },
+    background: {
+        bush_1    : { x: 1000,        y: 517, collisionGroup: 'bg', motionstate: 'static', scene: true, collides: []},
+        bush_2    : { x: 1700,        y: 527, collisionGroup: 'bg', motionstate: 'static', scene: true, collides: []},
     }
 
 });

@@ -1,4 +1,4 @@
-define('background', ['materials'],function (materials){
+define('background', ['materials', 'imagestash'],function (materials, imgStash){
 
 	'use strict';
 
@@ -7,10 +7,12 @@ define('background', ['materials'],function (materials){
 
 			this.game = game;
 			this.grassTile = null;
+			this.assets = new imgStash.ImageStash(game, 'background');
 
 			this.preload = function () {
 	    		this.game.load.image('background_tile', 'assets/background/background.png');
 	    		this.game.load.image('background_grass', 'assets/background/grass.png');
+	    		this.assets.load();
 			};
 
 			this.create = function (wWidth, wHeight, collisionGroups) {
@@ -30,7 +32,7 @@ define('background', ['materials'],function (materials){
 		        		collisionGroups.wheel]);
 
 				game.physics.p2.setMaterial(materials.worldMaterial, [this.grassTile.body]);
-
+				this.assets.create(collisionGroups);
 			};
 
 		}
